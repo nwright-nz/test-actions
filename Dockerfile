@@ -36,5 +36,5 @@ RUN apk update \
     pip install --upgrade awscli==1.16.232 s3cmd==2.0.1 python-magic && \
     apk -v --purge del py-pip && \
     rm /var/cache/apk/*
-
+RUN apk add python3=3.5.1-r0
 RUN curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
