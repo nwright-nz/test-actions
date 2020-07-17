@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag test-image:$(date +%s)
+    - name: Trivy Vulnerability Scanner
+      uses: aquasecurity/trivy-action@0.0.7
+      with:
+        # image reference
+        image-ref: test-image:$(date +%s) 
+        # exit code when vulnerabilities were found
+        exit-code: 1 # optional, default is 0
+        # ignore unfixed vulnerabilities
+        ignore-unfixed: true # optional
+        # severities of vulnerabilities to be displayed
+        severity: CRITICAL,HIGH,MEDIUM
+        # output format (table, json)
+        format: table # optional, default is table
