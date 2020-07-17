@@ -15,12 +15,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag test-image:$GITHUB_SHA
+      run: docker build . --file Dockerfile --tag test-image:${{github.run_number}}
     - name: Trivy Vulnerability Scanner
       uses: aquasecurity/trivy-action@0.0.7
       with:
         # image reference
-        image-ref: test-image:$GITHUB_SHA
+        image-ref: test-image:${{github.run_number}}
         # exit code when vulnerabilities were found
         exit-code: 1 # optional, default is 0
         # ignore unfixed vulnerabilities
